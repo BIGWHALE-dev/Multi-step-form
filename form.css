@@ -1,0 +1,456 @@
+@font-face {
+  font-family: "Ubuntu";
+  src: url(./assets/fonts/Ubuntu-Regular.ttf);
+}
+@font-face {
+  font-family: "Ubuntu";
+  src: url(./assets/fonts/Ubuntu-Medium.ttf);
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Ubuntu";
+  src: url(./assets/fonts/Ubuntu-Bold.ttf);
+  font-weight: 700;
+}
+
+:root {
+  /* ### Neutral */
+  --white: hsl(0, 100%, 100%);
+  --light-50: hsl(231, 100%, 99%);
+  --neutral-100: hsl(218, 100%, 97%);
+  --neutral-200: hsl(229, 24%, 87%);
+  --grey-500: hsl(231, 11%, 63%);
+
+  /* ### Primary */
+  --Blue-950: hsl(213, 96%, 18%);
+  --Purple-600: hsl(243, 100%, 62%);
+  --tyanBlue-300: hsl(228, 100%, 84%);
+  --lightBlue-200: hsl(206, 94%, 87%);
+  --Red-500: hsl(354, 84%, 57%);
+
+  --sect-boder-r: 12px;
+}
+
+/* ===== body ===== */
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+body {
+  background-color: var(--neutral-100);
+  font-family: "Ubuntu";
+  font-size: 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== container ===== */
+#container {
+  background-color: var(--white);
+  padding: 1rem;
+  margin: auto;
+  display: flex;
+  height: 85%;
+  width: 850px;
+  border-radius: var(--sect-boder-r);
+}
+
+/* ===== sidebar ===== */
+
+#sidebar {
+  height: 100%;
+  width: 30%;
+  min-width: 220px;
+  background: url("./assets/images/bg-sidebar-desktop.svg") no-repeat
+    center/100%;
+  padding-block: 2rem;
+  border-radius: var(--sect-boder-r);
+}
+
+#steps {
+  padding: 0 0 0 1.5rem;
+  margin: 0;
+}
+
+.step {
+  list-style-type: none;
+  counter-increment: num;
+  display: flex;
+  align-items: center;
+  padding: 0.7rem 0;
+  cursor: pointer;
+}
+
+.step::before {
+  content: counter(num);
+  width: 26px;
+  height: 26px;
+  font-weight: 500;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  text-align: center;
+  align-content: center;
+  color: var(--white);
+}
+
+.step_descript {
+  color: var(--white);
+  font-weight: 500;
+  text-transform: uppercase;
+  margin: 0 1rem;
+}
+
+.step_descript span {
+  color: var(--neutral-200);
+  display: block;
+  font-size: smaller;
+}
+
+/* ====== form ======= */
+form {
+  padding-inline: 4rem;
+  width: 70%;
+}
+
+.section {
+  display: none;
+  width: 100%;
+}
+
+.section_heading {
+  padding-block: 2rem 1rem;
+}
+
+.section_heading h1 {
+  color: var(--Blue-950);
+  margin: 0;
+}
+
+.section_heading p {
+  color: var(--grey-500);
+}
+
+/* ====== personal info section ======= */
+.label-error_cont {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label-error_cont label {
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: var(--Blue-950);
+  margin-bottom: 0.5rem;
+}
+
+.personal_info input {
+  display: block;
+  padding: 0.5rem;
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--grey-500);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.personal_info input:active,
+.personal_info input:focus {
+  outline-color: var(--Purple-600);
+}
+
+/* ======= plans info section ======= */
+.plans_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.plan {
+  border: 1px solid var(--grey-500);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 30%;
+  /* flex: 1; */
+}
+
+.plan input[type="radio"] {
+  display: none;
+}
+
+.plan:has(input[type="radio"]:checked) {
+  border-color: var(--Purple-600);
+  background-color: var(--light-50);
+}
+
+.plan h2 {
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--Blue-950);
+  margin-block: 1.5rem 0;
+}
+
+.plan .subscription_price {
+  display: block;
+  font-weight: normal;
+  color: var(--grey-500);
+  margin-block: 0.5rem 0;
+}
+
+.plan .promo {
+  margin: 0.5rem 0 0;
+  font-size: small;
+  color: var(--Blue-950);
+  font-weight: 500;
+  display: none;
+}
+
+.billing {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  align-items: center;
+  background-color: var(--neutral-100);
+  border-radius: 8px;
+  color: var(--grey-500);
+}
+
+.billing p {
+  margin: 0;
+  padding: 0.5rem 1rem;
+}
+
+/* ====== plan toggle btn ====== */
+.switch {
+  height: 22px;
+  width: 46px;
+  display: inline-block;
+  position: relative;
+}
+
+.switch input {
+  height: 0;
+  width: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: var(--Blue-950);
+  transition: 0.3s;
+  inset: 0;
+  border-radius: 11px;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  inset: 2px;
+  margin: auto 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--white);
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+/* ===== Add-ons section ====== */
+.add-on_feature {
+  display: flex;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--grey-500);
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.add-on_feature input {
+  margin: 0;
+}
+
+.add-on_feature:has(input:checked) {
+  border-color: var(--Purple-600);
+  background-color: var(--neutral-100);
+}
+
+.add-on_feature input[type="checkbox"]:checked {
+  accent-color: var(--Purple-600);
+}
+
+.add-on_description {
+  margin-left: 1rem;
+  flex-basis: 100%;
+}
+
+.add-on_description h2 {
+  color: var(--Blue-950);
+  font-size: medium;
+  margin: 0 0 0.5rem;
+}
+
+.add-on_description p {
+  margin: 0;
+  color: var(--grey-500);
+}
+
+.add-on_price {
+  color: var(--Purple-600);
+}
+
+/* ======= finishing-up section ======= */
+.summary {
+  background-color: var(--neutral-100);
+  padding: 1rem;
+  border-radius: 8px;
+}
+.summary hr {
+  margin-block: 1rem;
+}
+
+.plan_type {
+  color: var(--Blue-950);
+  font-weight: bold;
+  margin-block: 0 0.5rem;
+}
+
+.plan_amount {
+  color: var(--Blue-950);
+  font-weight: bold;
+}
+
+.change_plan,
+.add-on__package,
+.summary_total {
+  color: var(--grey-500);
+}
+
+.add-on__package {
+  margin: 0;
+}
+
+.package__2 {
+  margin-block: 1rem;
+}
+
+.add-on__amount {
+  color: var(--Blue-950);
+}
+
+.plan-type_cont,
+.total_cont,
+.add-on_cont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total_cont {
+  padding: 1rem;
+}
+
+.total_cont .total_price {
+  color: var(--Purple-600);
+}
+
+.next_btn.submit_btn {
+  background-color: var(--Purple-600);
+}
+
+/* ====== appreciation "last-section" ====== */
+.appreciation {
+  text-align: center;
+}
+
+.appreciation div {
+  margin: auto;
+  grid-row: span 3;
+}
+
+.appreciation p {
+  line-height: 1.5;
+}
+
+/* ====== buttons and container ====== */
+.btn_container {
+  margin-bottom: 1rem;
+  align-self: flex-end;
+  width: 100%;
+  display: inline-block;
+}
+
+button {
+  height: 40px;
+  width: 100px;
+  padding-inline: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.prev_btn {
+  background-color: transparent;
+  color: var(--grey-500);
+}
+
+.next_btn {
+  background-color: var(--Blue-950);
+  color: var(--white);
+  border-radius: 10px;
+  float: right;
+}
+
+/* ===== copyright ===== */
+.attribution {
+  font-size: 11px;
+  text-align: center;
+  padding-bottom: 2px;
+}
+.attribution a {
+  color: hsl(228, 45%, 44%);
+  text-decoration: none;
+}
+
+/* ====== useable class ====== */
+.personal_info input.error {
+  border-color: var(--Red-500);
+}
+
+.error-msg {
+  color: var(--Red-500);
+  font-size: 0.7rem;
+  margin: 0;
+}
+
+.active__section {
+  display: grid;
+  height: 100%;
+  grid-template-rows: max-content max-content auto;
+  transform: translateX(0);
+}
+
+.active__billing {
+  color: var(--Blue-950);
+  font-weight: 500;
+}
+
+.active__step::before {
+  background-color: var(--lightBlue-200);
+  color: var(--Blue-950);
+  border-color: var(--lightBlue-200);
+}
+
+.active__plan {
+  border-color: var(--Purple-600);
+}
+
+.promo.show_promo {
+  display: block;
+}

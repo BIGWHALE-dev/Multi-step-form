@@ -1,0 +1,24 @@
+export declare const stepsContainer: HTMLElement | null;
+export declare const steps: NodeListOf<Element>;
+export declare const form: HTMLFormElement;
+export declare const allSection: NodeListOf<Element>;
+export declare const personalInfo_Inputs: NodeListOf<Element>;
+export declare const inputsErrMsg: NodeListOf<Element>;
+export declare const planContainer: Element | null;
+export declare const plans: NodeListOf<HTMLElement>;
+export declare const planInputs: NodeListOf<Element>;
+export declare const plansSubscription: NodeListOf<HTMLElement>;
+export declare const planPromos: NodeListOf<HTMLElement>;
+export declare const toggleBtn: HTMLInputElement;
+export declare const addOns: NodeListOf<HTMLElement>;
+export declare const addOnCheckbox: NodeListOf<HTMLInputElement>;
+export declare const addOnPrice: NodeListOf<Element>;
+export declare const changePlanType: HTMLAnchorElement;
+export declare const selectedAddOnsContainer: HTMLElement;
+export declare const addOnPackages: NodeListOf<HTMLElement>;
+export declare const summaryTotals: Element | null;
+export declare const totalPrice: Element | null;
+export declare const btnContainer: NodeListOf<Element>;
+export declare const submitBtn: Element | null;
+export declare const allNextBtn: NodeListOf<Element>;
+//# sourceMappingURL=select.d.ts.map

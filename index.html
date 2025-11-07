@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+
+  <title>Frontend Mentor | Multi-step form</title>
+
+  <link rel="stylesheet" href="form.css">
+  <script defer src="./js/form.js" type="module"></script>
+</head>
+
+<body>
+
+  <div id="container">
+    <section id="sidebar">
+      <!-- Sidebar start -->
+      <ol id="steps">
+        <li class="step active__step" data-step="1">
+          <p class="step_descript"><span>Step 1</span>Your info</p>
+        </li>
+        <li class="step" data-step="2">
+          <p class="step_descript"><span>Step 2</span>Select plan</p>
+        </li>
+        <li class="step" data-step="3">
+          <p class="step_descript"><span>Step 3</span>Add-ons</p>
+        </li>
+        <li class="step" data-step="4">
+          <p class="step_descript"><span>Step 4</span>Summary</p>
+        </li>
+      </ol>
+      <!-- Sidebar end -->
+    </section>
+
+
+    <form action="" method="post">
+      <!-- Step 1 start -->
+      <div class="personal_info section active__section" id="section__1">
+        <div class="section_heading">
+          <h1>Personal info</h1>
+          <p>Please provide your name, email address, and phone number.</p>
+        </div>
+
+        <div>
+          <div class="label-error_cont">
+            <label for="fullname">Name</label>
+            <p class="error-msg"></p>
+          </div>
+          <input type="text" id="fullname" placeholder="e.g. Stephen King" name="name">
+
+          <div class="label-error_cont">
+            <label for="email">Email Address</label>
+            <p class="error-msg"></p>
+          </div>
+          <input type="email" id="email" placeholder="e.g. stephenking@lorem.com" name="email">
+
+          <div class="label-error_cont">
+            <label for="phone">Phone Number</label>
+            <p class="error-msg"></p>
+          </div>
+          <input type="number" id="phone" placeholder="e.g. +1 234 567 890" name="phone">
+        </div>
+        <div class="btn_container">
+          <button type="button" class="next_btn" data-goto="2">Next Step</button>
+        </div>
+      </div>
+      <!-- Step 1 end -->
+
+      <!-- Step 2 start -->
+      <div class="plans section" id="section__2">
+        <div class="section_heading">
+          <h1>Select your plan</h1>
+          <p>You have the option of monthly or yearly billing.</p>
+        </div>
+
+        <div>
+          <div class="plans_container">
+            <label class="plan">
+              <input type="radio" name="plan" value="Arcade">
+              <div>
+                <img src="./assets/images/icon-arcade.svg" alt="Arcade-icon">
+                <h2>Arcade</h2>
+                <p class="subscription_price"></p>
+                <p class="promo">2 months free</p>
+              </div>
+            </label>
+
+            <label class="plan">
+              <input type="radio" name="plan" value="Advanced">
+              <div>
+                <img src="./assets/images/icon-advanced.svg" alt="icon-advanced">
+                <h2>Advanced</h2>
+                <p class="subscription_price"></p>
+                <p class="promo">2 months free</p>
+              </div>
+            </label>
+
+            <label class="plan">
+              <input type="radio" name="plan" value="Pro">
+              <div>
+                <img src="./assets/images/icon-pro.svg" alt="icon-pro">
+                <h2>Pro</h2>
+                <p class="subscription_price"></p>
+                <p class="promo">2 months free</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="billing">
+            <p class="monthly active__billing">Monthly</p>
+            <label class="switch">
+              <input type="checkbox" id="toggle">
+              <span class="slider"></span>
+            </label>
+            <p class="yearly">Yearly</p>
+          </div>
+        </div>
+
+        <div class="btn_container">
+          <button type="button" class="prev_btn" data-goto="1">Go Back</button>
+          <button type="button" class="next_btn" data-goto="3">Next Step</button>
+        </div>
+      </div>
+      <!-- Step 2 end -->
+
+      <!-- Step 3 start -->
+      <div class="add-on section" id="section__3">
+        <div class="section_heading">
+          <h1>Pick add-ons</h1>
+          <p>Add-ons help enhance your gaming experience.</p>
+        </div>
+
+        <div>
+          <label class="add-on_feature">
+            <input type="checkbox" id="online_service" name="add-on1" value="Online service">
+            <div class="add-on_description">
+              <h2>Online service</h2>
+              <p>Access to multiplayer games</p>
+            </div>
+            <span class="add-on_price"></span>
+          </label>
+
+          <label class="add-on_feature">
+            <input type="checkbox" id="larger_storage" name="add-on2" value="Larger storage">
+            <div class="add-on_description">
+              <h2>Larger storage</h2>
+              <p>Extra 1TB of cloud save</p>
+            </div>
+            <span class="add-on_price"></span>
+          </label>
+
+          <label class="add-on_feature">
+            <input type="checkbox" id="customize" name="add-on3" value="Customizable Profile">
+            <div class="add-on_description">
+              <h2>Customizable Profile</h2>
+              <p>Custom theme on your profile</p>
+            </div>
+            <span class="add-on_price"></span>
+          </label>
+        </div>
+
+        <div class="btn_container">
+          <button type="button" class="prev_btn" data-goto="2">Go Back</button>
+          <button type="button" class="next_btn" data-goto="4">Next Step</button>
+        </div>
+      </div>
+      <!-- Step 3 end -->
+
+      <!-- Step 4 start -->
+      <div class="finishing_up section" id="section__4">
+        <div class="section_heading">
+          <h1>Finishing up</h1>
+          <p>Double-check everything looks OK before confirming.</p>
+        </div>
+
+        <div>
+          <div class="summary">
+            <div class="plan-type_cont">
+              <div>
+                <p class="plan_type"></p>
+                <a class="change_plan" data-step="2">change</a>
+              </div>
+              <span class="plan_amount"></span>
+            </div>
+
+            <hr>
+
+            <div class="add-ons_section">
+              <!-- <div class="add-on_cont">
+                <p class="add-on__package package__1">online service</p>
+                <span class="add-on__amount"></span>
+              </div>
+
+              <div class="add-on_cont">
+                <p class="add-on__package package__2"></p>
+                <span class="add-on__amount"></span>
+              </div>
+
+              <div class="add-on_cont">
+                <p class="add-on__package package__3"></p>
+                <span class="add-on__amount"></span>
+              </div> -->
+
+              <!-- the add-ons summaries will be added dynamically -->
+            </div>
+          </div>
+
+          <div class="total_cont">
+            <p class="summary_total">Total</p>
+            <b class="total_price">$100/yr</b>
+          </div>
+        </div>
+        <!-- Dynamically add subscription and add-on selections here -->
+
+        <div class="btn_container">
+          <button type="button" class="prev_btn" data-goto="3">Go Back</button>
+          <button type="submit" class="next_btn submit_btn" data-goto="5">Confirm</button>
+        </div>
+      </div>
+      <!-- Step 4 end -->
+
+      <!-- Step 5 start -->
+      <div class="appreciation section" id="section__5">
+        <div>
+          <img src="./assets/images/icon-thank-you.svg" alt="completion_icon">
+          <h1>Thank you!</h1>
+          <p>Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support,
+            please feel free to email us at support@loremgaming.com.</p>
+        </div>
+      </div>
+      <!-- Step 5 end -->
+    </form>
+  </div>
+
+
+  <div class="attribution">
+    <hr style="margin-block: 8px;">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="https://www.github.com/BIGWHALE-dev">BIGWHALE</a>.
+  </div>
+</body>
+
+</html>
