@@ -1,24 +1,62 @@
-import { allSection, steps, form, plans, plansSubscription, planPromos, toggleBtn, addOnPrice, addOnCheckbox, btnContainer, changePlanType, planInputs, selectedAddOnsContainer, addOns, addOnPackages, allNextBtn, summaryTotals, totalPrice, } from "./select.js";
+import { allSection, steps, form, plans, plansSubscription, planPromos, toggleBtn, addOnPrice, addOnCheckbox, btnContainer, changePlanType, planInputs, selectedAddOnsContainer, addOns, addOnPackages, allNextBtn, summaryTotals, totalPrice, personalInfo_Inputs, inputsErrMsgEL, email, summarySection, } from "./select.js";
 class Form {
+    activeSection = 1;
+    billingShortNM;
+    yearlyPlanAmt = [90, 120, 150];
+    monthlyPlanAmt = [9, 12, 15];
+    monthlyAddOnAmt = [1, 2, 2];
+    yearlyAddOnAmt = [10, 20, 20];
+    currBilling;
+    totalAmt = 0;
+    planAmt;
+    addOnAccumulator = 0;
     constructor() {
-        this.yearlyPlanAmt = [90, 120, 150];
-        this.monthlyPlanAmt = [9, 12, 15];
-        this.monthlyAddOnAmt = [1, 2, 2];
-        this.yearlyAddOnAmt = [10, 20, 20];
-        this.totalAmt = 0;
-        this.addOnAccumulator = 0;
         this.toggleBtnValue();
-        btnContainer.forEach((btn) => btn.addEventListener("click", this.btnHandler.bind(this)));
+        personalInfo_Inputs.forEach((inp, i) => inp.addEventListener("input", () => {
+            inputsErrMsgEL[i].textContent = "";
+            inp.classList.remove("error");
+        }));
+        btnContainer?.addEventListener("click", (e) => {
+            if ([...personalInfo_Inputs].some((inp) => inp.value === "")) {
+                this.emptyInputsError();
+            }
+            if (!email.value.trim().includes("@")) {
+                this.invalidEmail();
+            }
+            else {
+                this.trimInputs();
+                this.btnHandler(e);
+            }
+        });
         toggleBtn?.addEventListener("change", this.toggleHandler.bind(this));
         changePlanType?.addEventListener("click", this.changePlan.bind(this));
-        // [...allNextBtn]
-        //   .find(
-        //     (btn) =>
-        //       btn.closest(".section")?.nextElementSibling ===
-        //       document.getElementById("section__4")
-        //   )
-        //   ?.addEventListener("click", this.summaryTotals.bind(this));
-        form?.addEventListener("submit", this.formObjects);
+        form?.addEventListener("submit", this.formObjects.bind(this));
+        form?.addEventListener("keydown", (e) => {
+            if (!summarySection?.classList.contains("active__section")) {
+                if (e.key === "Enter")
+                    e.preventDefault();
+            }
+            // else this.formObjects.call(this, e);
+        });
+    } // constructor
+    sectionBtns() {
+        const maxSection = allSection.length - 1;
+        const nextBtn = document.createElement("button");
+        const prevBtn = document.createElement("button");
+        nextBtn.type = "button";
+        nextBtn.setAttribute("data-goto", `${this.activeSection + 1}`);
+        const btn = `
+    <button type="button" class="next_btn" data-goto="${this.activeSection + 1}">Next Step</button>`;
+        const bothBtns = `
+    <button type="button" class="prev_btn" data-goto="2">Go Back</button>
+    <button type="button" class="next_btn" data-goto="${this.activeSection + 1}">Next Step</button>`;
+        // this.activeSection++;
+        if (this.activeSection === 1) {
+            btnContainer?.insertAdjacentHTML("afterend", btn);
+        }
+        if (this.activeSection > 1) {
+            btnContainer?.insertAdjacentHTML("afterend", bothBtns);
+        }
     }
     curSection(stepNum) {
         document
@@ -35,23 +73,38 @@ class Form {
         // switch section
         this.curSection(stepNum);
     }
+    emptyInputsError(err = "this field is required") {
+        personalInfo_Inputs.forEach((input, i) => {
+            if (input.value.trim() === "") {
+                inputsErrMsgEL[i].textContent = err;
+                input.classList.add("error");
+                // return;
+            }
+        });
+    }
+    trimInputs() {
+        personalInfo_Inputs.forEach((input) => {
+            input.value.trim();
+        });
+    }
+    invalidEmail() {
+        document.querySelector(`[for="email"] + .error-msg`).textContent =
+            "invalid email*";
+        email.classList.add("error");
+    }
     updatePlanSummary() {
         const planType = document.querySelector(".plan_type");
         const planTypePrice = document.querySelector(".plan_amount");
         // Find the clicked plan
         const selectedPlan = [...plans].find((pln) => pln.querySelector("input").checked);
-        // planType.innerText = "";
-        // planTypePrice.textContent = "";
         if (selectedPlan) {
             const inputValue = selectedPlan.querySelector("input")?.value;
             const planSubscribtion = selectedPlan.querySelector(".subscription_price");
             // showing selected plan
             planType.innerText = `${inputValue}(${toggleBtn.value})`;
             planTypePrice.textContent = planSubscribtion?.textContent;
-            console.log(selectedPlan);
+            // console.log(selectedPlan);
             this.planAmt = +planTypePrice.textContent.slice(1, -3);
-            // console.log(this.planAmt);
-            // console.log(+planTypePrice.textContent.slice(1, -3));
         }
     }
     updateAddOnSummarry() {
@@ -76,7 +129,6 @@ class Form {
                     addOnCont.style.marginTop = "1rem";
                 // Rounding up total Add-ons amount
                 this.addOnAccumulator = this.addOnAccumulator + this.currBilling?.[i];
-                console.log(this.addOnAccumulator);
             }
         });
     }
@@ -84,11 +136,9 @@ class Form {
         if (this.planAmt)
             this.totalAmt = this.planAmt + this.addOnAccumulator;
         summaryTotals.textContent = `Total (per ${toggleBtn.value.slice(0, -2)})`;
-        totalPrice.textContent = `${this.totalAmt}`;
-        console.log(this.totalAmt, this.addOnAccumulator);
+        totalPrice.textContent = `$${this.totalAmt}/${this.billingShortNM}`;
     }
     goToBtn(el) {
-        // console.log(el.closest(".section"), el);
         const sectNum = el.dataset.goto;
         const step = document.querySelector(`[data-step="${sectNum}"]`);
         this.updateStepAndSection(step, sectNum);
@@ -97,11 +147,16 @@ class Form {
         const clicked = e.target;
         if (clicked instanceof HTMLButtonElement) {
             this.goToBtn(clicked);
+            this.sectionBtns();
             if (clicked.type !== "submit" &&
                 !clicked.classList.contains("prev_btn")) {
+                // this.emptyInputsError();
                 this.updatePlanSummary();
                 this.updateAddOnSummarry();
             }
+            if (clicked.closest(".section")?.nextElementSibling ===
+                document.getElementById("section__4"))
+                this.summaryTotals();
         }
     }
     toggleBtnValue() {
@@ -132,7 +187,6 @@ class Form {
         }
         this.currBilling =
             this.billingShortNM === "mo" ? this.monthlyAddOnAmt : this.yearlyAddOnAmt;
-        // return this.billingShortNM;
     }
     toggleHandler() {
         this.toggleBtnValue();

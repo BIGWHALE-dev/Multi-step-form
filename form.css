@@ -418,6 +418,53 @@ button {
   text-decoration: none;
 }
 
+/* ===== mobile version ===== */
+@media (max-width: 45rem) {
+  body {
+    background-color: var(--neutral-100);
+  }
+
+  #container {
+    display: block;
+    background: url("./assets/images/bg-sidebar-mobile.svg") no-repeat top/100%;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  #sidebar {
+    background: none;
+    height: auto;
+    width: 100%;
+    padding-block: 1rem;
+  }
+
+  #steps {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .step {
+    flex: 0.15;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step_descript {
+    display: none;
+  }
+
+  form {
+    padding: 2rem 1rem;
+    width: 100%;
+    background-color: var(--white);
+    border-radius: var(--sect-boder-r);
+    /* display: none; */
+  }
+}
+
 /* ====== useable class ====== */
 .personal_info input.error {
   border-color: var(--Red-500);
@@ -431,8 +478,8 @@ button {
 
 .active__section {
   display: grid;
-  height: 100%;
-  grid-template-rows: max-content max-content auto;
+  /* height: 100%; */
+  grid-template-rows: max-content max-content;
   transform: translateX(0);
 }
 
