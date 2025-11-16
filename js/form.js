@@ -11,19 +11,21 @@ class Form {
     planAmt;
     addOnAccumulator = 0;
     constructor() {
+        this.sectionBtns();
         this.toggleBtnValue();
+        // Remove error
         personalInfo_Inputs.forEach((inp, i) => inp.addEventListener("input", () => {
             inputsErrMsgEL[i].textContent = "";
             inp.classList.remove("error");
         }));
         btnContainer?.addEventListener("click", (e) => {
-            if ([...personalInfo_Inputs].some((inp) => inp.value === "")) {
+            // inputs validation
+            if ([...personalInfo_Inputs].some((inp) => inp.value === ""))
                 this.emptyInputsError();
-            }
-            if (!email.value.trim().includes("@")) {
+            if (email.value && !email.value.trim().includes("@"))
                 this.invalidEmail();
-            }
-            else {
+            if ([...personalInfo_Inputs].some((inp) => inp.value) &&
+                email.value.trim().includes("@")) {
                 this.trimInputs();
                 this.btnHandler(e);
             }
@@ -31,54 +33,32 @@ class Form {
         toggleBtn?.addEventListener("change", this.toggleHandler.bind(this));
         changePlanType?.addEventListener("click", this.changePlan.bind(this));
         form?.addEventListener("submit", this.formObjects.bind(this));
-        form?.addEventListener("keydown", (e) => {
-            if (!summarySection?.classList.contains("active__section")) {
-                if (e.key === "Enter")
-                    e.preventDefault();
-            }
-            // else this.formObjects.call(this, e);
-        });
     } // constructor
-    sectionBtns() {
-        const maxSection = allSection.length - 1;
-        const nextBtn = document.createElement("button");
-        const prevBtn = document.createElement("button");
-        nextBtn.type = "button";
-        nextBtn.setAttribute("data-goto", `${this.activeSection + 1}`);
-        const btn = `
-    <button type="button" class="next_btn" data-goto="${this.activeSection + 1}">Next Step</button>`;
-        const bothBtns = `
-    <button type="button" class="prev_btn" data-goto="2">Go Back</button>
-    <button type="button" class="next_btn" data-goto="${this.activeSection + 1}">Next Step</button>`;
-        // this.activeSection++;
-        if (this.activeSection === 1) {
-            btnContainer?.insertAdjacentHTML("afterend", btn);
-        }
-        if (this.activeSection > 1) {
-            btnContainer?.insertAdjacentHTML("afterend", bothBtns);
-        }
-    }
-    curSection(stepNum) {
+    curSection() {
         document
-            .getElementById(`section__${stepNum}`)
+            .getElementById(`section__${this.activeSection}`)
             ?.classList.add("active__section");
     }
-    updateStepAndSection(step, stepNum) {
+    curStep() {
+        document
+            .querySelector(`.step[data-step="${this.activeSection}"]`)
+            ?.classList.add("active__step");
+    }
+    updateStepAndSection() {
         // remove active classes
         steps.forEach((step) => step.classList.remove("active__step"));
         allSection.forEach((sect) => sect.classList.remove("active__section"));
         // switch step
-        if (step)
-            step.classList.add("active__step");
+        // if (step) step.classList.add("active__step");
+        this.curStep();
         // switch section
-        this.curSection(stepNum);
+        this.curSection();
     }
     emptyInputsError(err = "this field is required") {
         personalInfo_Inputs.forEach((input, i) => {
             if (input.value.trim() === "") {
                 inputsErrMsgEL[i].textContent = err;
                 input.classList.add("error");
-                // return;
             }
         });
     }
@@ -122,7 +102,7 @@ class Form {
                 addOnCont.classList.add("add-on_cont");
                 // prettier-ignore
                 addOnCont.innerHTML = `<p class="add-on__package">${add.querySelector("input")?.value}</p>
-        <span class="add-on__amount">+$${this.currBilling?.[i]}/${this.billingShortNM}</span>`;
+          <span class="add-on__amount">+$${this.currBilling?.[i]}/${this.billingShortNM}</span>`;
                 // send each add-on to the DOM
                 selectedAddOnsContainer?.append(addOnCont);
                 if (i >= 1)
@@ -138,26 +118,22 @@ class Form {
         summaryTotals.textContent = `Total (per ${toggleBtn.value.slice(0, -2)})`;
         totalPrice.textContent = `$${this.totalAmt}/${this.billingShortNM}`;
     }
-    goToBtn(el) {
-        const sectNum = el.dataset.goto;
-        const step = document.querySelector(`[data-step="${sectNum}"]`);
-        this.updateStepAndSection(step, sectNum);
-    }
-    btnHandler(e) {
-        const clicked = e.target;
-        if (clicked instanceof HTMLButtonElement) {
-            this.goToBtn(clicked);
-            this.sectionBtns();
-            if (clicked.type !== "submit" &&
-                !clicked.classList.contains("prev_btn")) {
-                // this.emptyInputsError();
-                this.updatePlanSummary();
-                this.updateAddOnSummarry();
-            }
-            if (clicked.closest(".section")?.nextElementSibling ===
-                document.getElementById("section__4"))
-                this.summaryTotals();
+    sectionBtns() {
+        const maxSection = allSection.length;
+        const ifSummarySection = this.activeSection === maxSection - 1;
+        const btn = `
+      <button type="button" class="next_btn" data-goto="${this.activeSection + 1}">Next Step</button>`;
+        const bothBtns = `
+      <button type="button" class="prev_btn" data-goto="${this.activeSection - 1}">Go Back</button>
+      <button type="${ifSummarySection ? "submit" : "button"}" class="next_btn ${ifSummarySection ? "submit_btn" : ""}" data-goto="${this.activeSection + 1}">${ifSummarySection ? "Confirm" : "Next Step"}</button>`;
+        if (this.activeSection === 1) {
+            btnContainer.innerHTML = btn;
         }
+        if (this.activeSection > 1) {
+            btnContainer.innerHTML = bothBtns;
+        }
+        if (this.activeSection === maxSection)
+            btnContainer.style.display = "none";
     }
     toggleBtnValue() {
         if (toggleBtn.checked) {
@@ -188,6 +164,23 @@ class Form {
         this.currBilling =
             this.billingShortNM === "mo" ? this.monthlyAddOnAmt : this.yearlyAddOnAmt;
     }
+    btnHandler(e) {
+        const clicked = e.target;
+        if (clicked instanceof HTMLButtonElement) {
+            clicked.classList.contains("next_btn")
+                ? this.activeSection++
+                : this.activeSection--;
+            this.updateStepAndSection();
+            this.sectionBtns();
+            console.log(this.activeSection);
+            if (!clicked.classList.contains("prev_btn")) {
+                this.updatePlanSummary();
+                this.updateAddOnSummarry();
+            }
+            if (clicked.dataset.goto === "4")
+                this.summaryTotals();
+        }
+    }
     toggleHandler() {
         this.toggleBtnValue();
         const yearly = document.querySelector(".yearly");
@@ -195,10 +188,14 @@ class Form {
         yearly?.classList.toggle("active__billing");
         monthly?.classList.toggle("active__billing");
     }
-    changePlan() {
-        const sect = changePlanType.dataset.step;
-        const step = document.querySelector(`[data-step="${sect}"]`);
-        this.updateStepAndSection(step, sect);
+    changePlan(e) {
+        e.preventDefault();
+        this._activeSection = +changePlanType.dataset.step;
+        this.updateStepAndSection();
+        this.sectionBtns();
+    }
+    set _activeSection(v) {
+        this.activeSection = v;
     }
     formObjects(e) {
         e.preventDefault();
