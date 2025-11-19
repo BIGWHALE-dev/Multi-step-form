@@ -473,8 +473,10 @@ button {
   form {
     padding: 0;
     width: 100%;
+    grid-template-rows: max-content max-content;
+    align-content: space-between;
     /* height: 100%; */
-    /* flex: 1; */
+    flex: 1;
   }
 
   .sections_container {
