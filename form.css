@@ -128,9 +128,9 @@ form {
 .section {
   display: none;
   width: 100%;
-  transform: translateX(30rem);
+  /* padding-block: 2rem; */
+  transform: translateX(100%);
   transition: 2s;
-  padding-block: 2rem;
 }
 
 .section_heading {
