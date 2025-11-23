@@ -255,10 +255,10 @@ form {
 .slider::before {
   position: absolute;
   content: "";
-  inset: 2px;
+  inset: 3px;
   margin: auto 0;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background-color: var(--white);
   transition: 0.3s;
