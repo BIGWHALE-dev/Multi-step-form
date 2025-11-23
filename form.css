@@ -180,8 +180,8 @@ form {
 .plan {
   border: 1px solid var(--grey-500);
   border-radius: 8px;
-  /* padding: 1rem;
-  width: 30%; */
+  padding: 1rem;
+  /* width: 30%; */
 }
 
 .plan input[type="radio"] {

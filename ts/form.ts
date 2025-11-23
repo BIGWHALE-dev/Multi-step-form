@@ -13,14 +13,12 @@ import {
   planInputs,
   selectedAddOnsContainer,
   addOns,
-  addOnPackages,
-  allNextBtn,
   summaryTotals,
   totalPrice,
   personalInfo_Inputs,
   inputsErrMsgEL,
   email,
-  summarySection,
+  phoneNumber,
 } from "./select.js";
 
 class Form {
@@ -50,10 +48,15 @@ class Form {
       // inputs validation
       if ([...personalInfo_Inputs].some((inp) => inp.value === ""))
         this.emptyInputsError();
-      if (email.value && !email.value.trim().includes("@")) this.invalidEmail();
+      if (email.value.trim() && !email.value.trim().includes("@"))
+        this.invalidInputValue("email", "please enter a valid email", email);
+
+      if (phoneNumber.value.trim() && phoneNumber.value.trim().length < 7)
+        this.invalidInputValue("phone", "Invalid Phone Number!", phoneNumber);
       if (
         [...personalInfo_Inputs].some((inp) => inp.value) &&
-        email.value.trim().includes("@")
+        email.value.trim().includes("@") &&
+        phoneNumber.value.trim().length >= 7
       ) {
         this.trimInputs();
         this.btnHandler(e);
@@ -103,10 +106,11 @@ class Form {
     });
   }
 
-  invalidEmail() {
-    document.querySelector(`[for="email"] + .error-msg`)!.textContent =
-      "invalid email*";
-    email.classList.add("error");
+  invalidInputValue<T>(inputType: T, err: T, inp: HTMLElement) {
+    document.querySelector(
+      `[for="${inputType}"] + .error-msg`
+    )!.textContent = `${err}`;
+    inp.classList.add("error");
   }
 
   updatePlanSummary() {

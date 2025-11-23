@@ -6,6 +6,7 @@ export const personalInfo_Inputs = form?.querySelectorAll(
   ".personal_info input"
 ) as NodeListOf<HTMLInputElement>;
 export const email = document.getElementById("email") as HTMLInputElement;
+export const phoneNumber = document.getElementById("phone") as HTMLInputElement;
 export const inputsErrMsgEL = form?.querySelectorAll(".error-msg");
 export const planContainer = form?.querySelector(".plans_container");
 export const plans = form?.querySelectorAll(".plan") as NodeListOf<HTMLElement>;

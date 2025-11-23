@@ -1,4 +1,4 @@
-import { allSection, steps, form, plans, plansSubscription, planPromos, toggleBtn, addOnPrice, addOnCheckbox, btnContainer, changePlanType, planInputs, selectedAddOnsContainer, addOns, addOnPackages, allNextBtn, summaryTotals, totalPrice, personalInfo_Inputs, inputsErrMsgEL, email, summarySection, } from "./select.js";
+import { allSection, steps, form, plans, plansSubscription, planPromos, toggleBtn, addOnPrice, addOnCheckbox, btnContainer, changePlanType, planInputs, selectedAddOnsContainer, addOns, summaryTotals, totalPrice, personalInfo_Inputs, inputsErrMsgEL, email, phoneNumber, } from "./select.js";
 class Form {
     activeSection = 1;
     billingShortNM;
@@ -22,10 +22,13 @@ class Form {
             // inputs validation
             if ([...personalInfo_Inputs].some((inp) => inp.value === ""))
                 this.emptyInputsError();
-            if (email.value && !email.value.trim().includes("@"))
-                this.invalidEmail();
+            if (email.value.trim() && !email.value.trim().includes("@"))
+                this.invalidInputValue("email", "please enter a valid email", email);
+            if (phoneNumber.value.trim() && phoneNumber.value.trim().length < 7)
+                this.invalidInputValue("phone", "Invalid Phone Number!", phoneNumber);
             if ([...personalInfo_Inputs].some((inp) => inp.value) &&
-                email.value.trim().includes("@")) {
+                email.value.trim().includes("@") &&
+                phoneNumber.value.trim().length >= 7) {
                 this.trimInputs();
                 this.btnHandler(e);
             }
@@ -67,10 +70,9 @@ class Form {
             input.value.trim();
         });
     }
-    invalidEmail() {
-        document.querySelector(`[for="email"] + .error-msg`).textContent =
-            "invalid email*";
-        email.classList.add("error");
+    invalidInputValue(inputType, err, inp) {
+        document.querySelector(`[for="${inputType}"] + .error-msg`).textContent = `${err}`;
+        inp.classList.add("error");
     }
     updatePlanSummary() {
         const planType = document.querySelector(".plan_type");

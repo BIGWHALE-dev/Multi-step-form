@@ -4,6 +4,7 @@ export declare const form: HTMLFormElement;
 export declare const allSection: NodeListOf<Element>;
 export declare const personalInfo_Inputs: NodeListOf<HTMLInputElement>;
 export declare const email: HTMLInputElement;
+export declare const phoneNumber: HTMLInputElement;
 export declare const inputsErrMsgEL: NodeListOf<Element>;
 export declare const planContainer: Element | null;
 export declare const plans: NodeListOf<HTMLElement>;

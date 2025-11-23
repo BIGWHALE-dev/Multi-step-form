@@ -4,6 +4,7 @@ export const form = document.querySelector("form");
 export const allSection = document.querySelectorAll(".section");
 export const personalInfo_Inputs = form?.querySelectorAll(".personal_info input");
 export const email = document.getElementById("email");
+export const phoneNumber = document.getElementById("phone");
 export const inputsErrMsgEL = form?.querySelectorAll(".error-msg");
 export const planContainer = form?.querySelector(".plans_container");
 export const plans = form?.querySelectorAll(".plan");
