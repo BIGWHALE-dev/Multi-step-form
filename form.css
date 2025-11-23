@@ -38,18 +38,16 @@
 
 body,
 html {
-  height: 100%;
+  height: max(100%, 550px);
 }
 
 body {
-  /* min-height: 100%; */
   background-color: var(--neutral-100);
   font-family: "Ubuntu";
   font-size: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* align-items: center; */
   margin: 0;
 }
 
@@ -59,8 +57,8 @@ body {
   padding: 1rem 0 1rem 1rem;
   margin: auto;
   display: flex;
-  height: 550px;
-  width: clamp(770px, 90%, 900px);
+  height: clamp(510px, 65vw, 550px);
+  width: clamp(768px, 90%, 900px);
   border-radius: var(--sect-boder-r);
 }
 
@@ -122,15 +120,14 @@ form {
   height: 100%;
   display: grid;
   grid-template-rows: max-content auto;
-  /* align-items: ; */
 }
 
 .section {
   display: none;
   width: 100%;
   padding-block: 2rem;
-  transform: translateX(100%);
-  /* transition: 2s; */
+  /* transform: translateY(100%);
+  transition: 2s; */
 }
 
 .section_heading {
@@ -184,9 +181,8 @@ form {
 .plan {
   border: 1px solid var(--grey-500);
   border-radius: 8px;
-  padding: 1rem;
-  width: 30%;
-  /* flex: 1; */
+  /* padding: 1rem;
+  width: 30%; */
 }
 
 .plan input[type="radio"] {
@@ -282,10 +278,13 @@ form {
   border-radius: 8px;
   align-items: center;
   cursor: pointer;
+  gap: 1rem;
 }
 
 .add-on_feature input {
   margin: 0;
+  height: 18px;
+  width: 18px;
 }
 
 .add-on_feature:has(input:checked) {
@@ -298,8 +297,7 @@ form {
 }
 
 .add-on_description {
-  margin-left: 1rem;
-  flex-basis: 100%;
+  flex: 1;
 }
 
 .add-on_description h2 {
@@ -361,7 +359,11 @@ form {
 }
 
 .total_cont {
-  padding: 1rem;
+  padding: 1rem 1rem 0;
+}
+
+.summary_total {
+  margin-block-end: 0;
 }
 
 .total_cont .total_price {
@@ -371,7 +373,6 @@ form {
 /* ====== appreciation "last-section" ====== */
 .appreciation {
   text-align: center;
-  /* grid-row: span 2; */
   align-items: center;
 }
 
@@ -426,19 +427,20 @@ button {
   text-decoration: none;
 }
 
-/* ===== mobile version ===== */
-@media (max-width: 45rem) {
+/* ===== mobile and tablet design ===== */
+@media (max-width: 47rem) {
   body {
     display: block;
+    height: fit-content;
+    /* font-size: 1.15rem; */
   }
 
   #container {
-    /* display: block; */
     flex-direction: column;
     background: url("./assets/images/bg-sidebar-mobile.svg") no-repeat top/100%;
     width: 100%;
     height: 100%;
-    min-height: 100% /* 100dvh */;
+    min-height: 100dvh;
     border-radius: 0;
     margin: 0;
     padding: 0;
@@ -458,7 +460,7 @@ button {
   }
 
   .step {
-    flex: 0.12;
+    flex: 0.1;
     align-items: center;
     justify-content: center;
   }
@@ -471,15 +473,11 @@ button {
   form {
     padding: 0;
     width: 100%;
-    grid-template-rows: max-content max-content;
-    align-content: space-between;
-    /* height: 100%; */
     flex: 1;
   }
 
   .sections_container {
     padding: 0 1rem;
-    /* height: auto; */
   }
 
   .section {
@@ -499,7 +497,6 @@ button {
 
   .plans_container {
     flex-direction: column;
-    /* justify-content: space-between; */
     row-gap: 1rem;
   }
 
@@ -513,6 +510,10 @@ button {
     margin: 0;
   }
 
+  .appreciation div {
+    margin: 3rem 0;
+  }
+
   .btn_container {
     align-items: flex-end;
     margin: 1rem 0 0;
@@ -524,13 +525,25 @@ button {
   }
 }
 
+@media (min-width: 48rem) {
+  .plan {
+    padding: 0.7rem;
+    width: 31%;
+  }
+}
+
+@media (min-width: 55rem) {
+  .plan {
+    padding: 1rem;
+    width: 30%;
+  }
+}
+
 /* ====== useable class ====== */
 .active__section {
   display: block;
-  height: 100%;
-  /* grid-template-rows: max-content max-content; */
-  transform: translateX(0);
-  transition: 1s;
+  /* transform: translateX(0);
+  transition: 1s; */
 }
 
 .personal_info input.error {
