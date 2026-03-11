@@ -1,29 +1,18 @@
+//prettier-ignore
 import {
-  allSection,
-  steps,
-  form,
-  plans,
-  plansSubscription,
-  planPromos,
-  toggleBtn,
-  addOnPrice,
-  addOnCheckbox,
-  btnContainer,
-  changePlanType,
-  planInputs,
-  selectedAddOnsContainer,
-  addOns,
-  summaryTotals,
-  totalPrice,
-  personalInfo_Inputs,
-  inputsErrMsgEL,
-  email,
-  phoneNumber,
+  steps, form, allSection, personalInfo_Inputs, email, phoneNumber, inputsErrMsgEL, plans, plansSubscription, planPromos, toggleBtn, addOns, addOnPrice, changePlanType, selectedAddOnsContainer, summaryTotals, totalPrice, btnContainer,
 } from "./select.js";
+
+function binder(value: Function, ctx: ClassMethodDecoratorContext) {
+  // console.log(ctx);
+  return ctx.addInitializer(function (this: any) {
+    this[ctx.name] = this[ctx.name].bind(this);
+  });
+}
 
 class Form {
   activeSection = 1;
-  private billingShortNM: string | undefined;
+  private billingShortNM?: string;
   private yearlyPlanAmt = [90, 120, 150];
   private monthlyPlanAmt = [9, 12, 15];
   private monthlyAddOnAmt = [1, 2, 2];
@@ -41,31 +30,31 @@ class Form {
       inp.addEventListener("input", () => {
         inputsErrMsgEL[i]!.textContent = "";
         inp.classList.remove("error");
-      })
+      }),
     );
 
-    btnContainer?.addEventListener("click", (e: any) => {
+    btnContainer?.addEventListener("click", (e: Event) => {
+      this.trimInputs();
       // inputs validation
       if ([...personalInfo_Inputs].some((inp) => inp.value === ""))
         this.emptyInputsError();
-      if (email.value.trim() && !email.value.trim().includes("@"))
+      if (email.value && !email.value.includes("@"))
         this.invalidInputValue("email", "please enter a valid email", email);
 
-      if (phoneNumber.value.trim() && phoneNumber.value.trim().length < 7)
+      if (phoneNumber.value && phoneNumber.value.length < 7)
         this.invalidInputValue("phone", "Invalid Phone Number!", phoneNumber);
       if (
-        [...personalInfo_Inputs].some((inp) => inp.value) &&
-        email.value.trim().includes("@") &&
-        phoneNumber.value.trim().length >= 7
+        [...personalInfo_Inputs].every((inp) => inp.value) &&
+        email.value.includes("@") &&
+        phoneNumber.value.length >= 7
       ) {
-        this.trimInputs();
         this.btnHandler(e);
       }
     });
 
-    toggleBtn?.addEventListener("change", this.toggleHandler.bind(this));
-    changePlanType?.addEventListener("click", this.changePlan.bind(this));
-    form?.addEventListener("submit", this.formObjects.bind(this));
+    toggleBtn?.addEventListener("change", this.toggleHandler);
+    changePlanType?.addEventListener("click", this.changePlan);
+    form?.addEventListener("submit", this.formObjects);
   } // constructor
 
   curSection() {
@@ -107,9 +96,8 @@ class Form {
   }
 
   invalidInputValue<T>(inputType: T, err: T, inp: HTMLElement) {
-    document.querySelector(
-      `[for="${inputType}"] + .error-msg`
-    )!.textContent = `${err}`;
+    document.querySelector(`[for="${inputType}"] + .error-msg`)!.textContent =
+      `${err}`;
     inp.classList.add("error");
   }
 
@@ -119,19 +107,18 @@ class Form {
 
     // Find the clicked plan
     const selectedPlan = [...plans].find(
-      (pln) => (pln.querySelector("input") as HTMLInputElement).checked
+      (pln) => (pln.querySelector("input") as HTMLInputElement).checked,
     ) as HTMLElement;
 
     if (selectedPlan) {
       const inputValue = selectedPlan.querySelector("input")?.value;
       const planSubscribtion = selectedPlan.querySelector(
-        ".subscription_price"
+        ".subscription_price",
       ) as HTMLElement;
 
       // showing selected plan
       planType.innerText = `${inputValue}(${toggleBtn.value})`;
       planTypePrice.textContent = planSubscribtion?.textContent;
-      // console.log(selectedPlan);
       this.planAmt = +planTypePrice.textContent.slice(1, -3);
     }
   }
@@ -186,8 +173,8 @@ class Form {
       <button type="${
         ifSummarySection ? "submit" : "button"
       }" class="next_btn ${ifSummarySection ? "submit_btn" : ""}" data-goto="${
-      this.activeSection + 1
-    }">${ifSummarySection ? "Confirm" : "Next Step"}</button>`;
+        this.activeSection + 1
+      }">${ifSummarySection ? "Confirm" : "Next Step"}</button>`;
 
     if (this.activeSection === 1) {
       btnContainer.innerHTML = btn;
@@ -205,9 +192,8 @@ class Form {
       planPromos.forEach((p, i) => {
         p.classList.add("show_promo");
         // plans yearly prices
-        plansSubscription[
-          i
-        ]!.textContent = `$${this.yearlyPlanAmt[i]}/${this.billingShortNM}`;
+        plansSubscription[i]!.textContent =
+          `$${this.yearlyPlanAmt[i]}/${this.billingShortNM}`;
         // add-ons yearly prices
         addOnPrice[i]!.textContent = `
         +$${this.yearlyAddOnAmt[i]}/${this.billingShortNM}`;
@@ -229,15 +215,13 @@ class Form {
       this.billingShortNM === "mo" ? this.monthlyAddOnAmt : this.yearlyAddOnAmt;
   }
 
-  btnHandler(e: any) {
+  btnHandler(e: Event) {
     const clicked = e.target;
     if (clicked instanceof HTMLButtonElement) {
-      clicked.classList.contains("next_btn")
-        ? this.activeSection++
-        : this.activeSection--;
+      clicked.classList.contains("next_btn") && this.activeSection++;
+      clicked.classList.contains("prev_btn") && this.activeSection--;
       this.updateStepAndSection();
       this.sectionBtns();
-      console.log(this.activeSection);
       if (!clicked.classList.contains("prev_btn")) {
         this.updatePlanSummary();
         this.updateAddOnSummarry();
@@ -246,6 +230,7 @@ class Form {
     }
   }
 
+  @binder
   toggleHandler() {
     this.toggleBtnValue();
     const yearly = document.querySelector(".yearly");
@@ -254,7 +239,8 @@ class Form {
     monthly?.classList.toggle("active__billing");
   }
 
-  changePlan(e: any) {
+  @binder
+  changePlan(e: Event) {
     e.preventDefault();
     this._activeSection = +changePlanType.dataset.step!;
     this.updateStepAndSection();
@@ -265,6 +251,7 @@ class Form {
     this.activeSection = v;
   }
 
+  @binder
   formObjects(e: any) {
     e.preventDefault();
     const formdata = new FormData(form);
@@ -274,8 +261,7 @@ class Form {
   }
 }
 
-const formdat = new Form();
-console.log(formdat);
+new Form();
 
 // event handlers
 // stepsContainer?.addEventListener("click", function (e) {

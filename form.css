@@ -1,18 +1,3 @@
-@font-face {
-  font-family: "Ubuntu";
-  src: url(./assets/fonts/Ubuntu-Regular.ttf);
-}
-@font-face {
-  font-family: "Ubuntu";
-  src: url(./assets/fonts/Ubuntu-Medium.ttf);
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Ubuntu";
-  src: url(./assets/fonts/Ubuntu-Bold.ttf);
-  font-weight: 700;
-}
-
 :root {
   /* ### Neutral */
   --white: hsl(0, 100%, 100%);
@@ -38,12 +23,12 @@
 
 body,
 html {
-  height: max(100%, 550px);
+  height: 100%;
 }
 
 body {
   background-color: var(--neutral-100);
-  font-family: "Ubuntu";
+  font-family: "Ubuntu", sans-serif;
   font-size: 1rem;
   display: flex;
   flex-direction: column;
@@ -57,8 +42,8 @@ body {
   padding: 1rem 0 1rem 1rem;
   margin: auto;
   display: flex;
-  height: clamp(510px, 65vw, 550px);
-  width: clamp(768px, 90%, 900px);
+  height: clamp(510px, 65vw, 540px);
+  width: clamp(736px, 92vw, 900px);
   border-radius: var(--sect-boder-r);
 }
 
@@ -67,9 +52,9 @@ body {
 #sidebar {
   height: 100%;
   width: 30%;
-  min-width: 250px;
+  min-width: 230px;
   background: url("./assets/images/bg-sidebar-desktop.svg") no-repeat
-    center/100%;
+    center/cover;
   padding-block: 2rem;
   border-radius: var(--sect-boder-r);
 }
@@ -118,7 +103,7 @@ form {
   width: 70%;
   height: 100%;
   display: grid;
-  grid-template-rows: max-content auto;
+  grid-template-rows: auto max-content;
 }
 
 .section {
@@ -139,7 +124,7 @@ form {
 
   p {
     color: var(--grey-500);
-    line-height: 1.5;
+    line-height: 1.4;
   }
 }
 
@@ -180,8 +165,8 @@ form {
 .plan {
   border: 1px solid var(--grey-500);
   border-radius: 8px;
-  padding: 1rem;
-  /* width: 30%; */
+  padding: 0.7rem;
+  width: 30%;
 }
 
 .plan input[type="radio"] {
@@ -190,7 +175,12 @@ form {
 
 .plan:has(input[type="radio"]:checked) {
   border-color: var(--Purple-600);
-  background-color: var(--light-50);
+  background-color: var(--neutral-100);
+}
+
+.plan:active,
+.plan:hover {
+  border-color: var(--Purple-600);
 }
 
 .plan h2 {
@@ -278,6 +268,7 @@ form {
   align-items: center;
   cursor: pointer;
   gap: 1rem;
+  font-size: 0.85rem;
 }
 
 .add-on_feature input {
@@ -295,6 +286,11 @@ form {
   accent-color: var(--Purple-600);
 }
 
+.add-on_feature:active,
+.add-on_feature:hover {
+  border-color: var(--Purple-600);
+}
+
 .add-on_description {
   flex: 1;
 }
@@ -302,6 +298,7 @@ form {
 .add-on_description h2 {
   color: var(--Blue-950);
   font-size: medium;
+  font-weight: 500;
   margin: 0 0 0.5rem;
 }
 
@@ -341,6 +338,11 @@ form {
   color: var(--grey-500);
 }
 
+.change_plan:active,
+.change_plan:hover {
+  color: var(--Purple-600);
+}
+
 .add-on__package {
   margin: 0;
 }
@@ -372,11 +374,8 @@ form {
 /* ====== appreciation "last-section" ====== */
 .appreciation {
   text-align: center;
-  align-items: center;
-}
-
-.appreciation div {
-  margin: auto;
+  align-content: center;
+  height: 100%;
 }
 
 .appreciation p {
@@ -402,17 +401,30 @@ button {
 .prev_btn {
   background-color: transparent;
   color: var(--grey-500);
+  font-weight: 700;
+}
+
+.prev_btn:hover {
+  color: var(--Blue-950);
 }
 
 .next_btn {
   background-color: var(--Blue-950);
   color: var(--white);
-  border-radius: 10px;
+  border-radius: 8px;
   float: right;
 }
 
 .next_btn.submit_btn {
   background-color: var(--Purple-600);
+}
+
+.next_btn:hover {
+  background-color: hsl(213, 93%, 26%);
+}
+
+.next_btn.submit_btn:hover {
+  background-color: hsla(243, 100%, 62%, 0.7);
 }
 
 /* ===== copyright ===== */
@@ -431,7 +443,6 @@ button {
   body {
     display: block;
     height: fit-content;
-    /* font-size: 1.15rem; */
   }
 
   #container {
@@ -509,8 +520,16 @@ button {
     margin: 0;
   }
 
-  .appreciation div {
-    margin: 3rem 0;
+  .add-on_feature {
+    letter-spacing: -0.5px;
+  }
+
+  .appreciation {
+    height: unset;
+
+    div {
+      margin: 3rem 0;
+    }
   }
 
   .btn_container {
@@ -520,21 +539,19 @@ button {
   }
 
   .next_btn {
-    border-radius: 6px;
+    border-radius: 4px;
   }
-}
 
-@media (min-width: 48rem) {
-  .plan {
-    padding: 0.7rem;
-    width: 31%;
+  .prev_btn:active {
+    color: var(--Blue-950);
   }
-}
 
-@media (min-width: 55rem) {
-  .plan {
-    padding: 1rem;
-    width: 30%;
+  .next_btn:active {
+    background-color: hsl(213, 93%, 26%);
+  }
+
+  .next_btn.submit_btn:active {
+    background-color: hsla(243, 100%, 62%, 0.7);
   }
 }
 
