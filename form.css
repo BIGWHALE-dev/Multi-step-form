@@ -42,8 +42,8 @@ body {
   padding: 1rem 0 1rem 1rem;
   margin: auto;
   display: flex;
-  height: clamp(510px, 65vw, 540px);
-  width: clamp(736px, 92vw, 900px);
+  height: 500px;
+  width: clamp(736px, 92vw, 800px);
   border-radius: var(--sect-boder-r);
 }
 
