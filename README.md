@@ -58,6 +58,12 @@ I learned how to use Typescript to code for starters, and i learned how to use d
 @binder
 ```
 
+I also used the new CSS pseudo selector, it is really powerfull, i it makes styling easier instead of using DOM manipulation...
+
+```css
+:has();
+```
+
 ### Continued development
 
 I want to learn more on how to use types and how to apply it in a more professional way and I want to learn more about the TS library and dependencies...
